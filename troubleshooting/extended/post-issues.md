@@ -1,28 +1,8 @@
 # Post-Install Issues
 
-* Supported version: 0.6.6
-
 Issues revolving around macOS once properly installed.
 
-* [Broken iMessage and Siri](#broken-imessage-and-siri)
-* [No on-board audio](#no-on-board-audio)
-* [BIOS reset or sent into Safemode after reboot/shutdown?](#bios-reset-or-sent-into-safemode-after-reboot-shutdown)
-* [Synaptics PS2 based trackpad doesn't work](#synaptics-ps2-based-trackpad-doesn-t-work)
-* [Fix for Dell breakless PS2 keyboard keys](#fix-for-dell-breakless-ps2-keyboard-keys)
-* [macOS GPU acceleration missing on AMD X570](#macos-gpu-acceleration-missing-on-amd-x570)
-* [DRM Broken](#drm-broken)
-* ["Memory Modules Misconfigured" on MacPro7,1](#memory-modules-misconfigured-on-macpro7-1)
-* [Apps crashing on AMD](#apps-crashing-on-amd)
-* [AssetCache Content Caching unavailable in virtual machine](#assetcache-content-caching-unavailable-in-virtual-machine)
-* [Coffee Lake systems failing to wake](#coffee-lake-systems-failing-to-wake)
-* [No temperature/fan sensor output](#no-temperature-fan-sensor-output)
-* ["You can't change the startup disk to the selected disk" error](#you-can-t-change-the-startup-disk-to-the-selected-disk-error)
-* [macOS waking up with the wrong time](#macos-waking-up-with-the-wrong-time)
-* [No Volume/Brightness control on external monitors](#no-volume-brightness-control-on-external-monitors)
-* [Disabling SIP](#disabling-sip)
-* [Rolling back APFS Snapshots](#rolling-back-apfs-snapshots)
-* [Apple Watch Unlock Issues](#apple-watch-unlock-issues)
-* [4K iGPU output issues over HDMI](#4k-igpu-output-issues-over-hdmi)
+[[toc]]
 
 ## Broken iMessage and Siri
 
@@ -103,6 +83,8 @@ Follow guide listed here:
 
 * [Fixing MacPro7,1 Memory Errors](https://dortania.github.io/OpenCore-Post-Install/universal/memory.html)
 
+For those who simply want to disable the notification(not the error itself) is more than enough. For these users, we recommend installing [RestrictEvents](https://github.com/acidanthera/RestrictEvents/releases)
+
 ## Apps crashing on AMD
 
 ~~Easy fix, buy Intel~~
@@ -128,7 +110,7 @@ So with AMD, whenever Apple calls CPU specific functions the app will either not
 This is generally seen on AMD who use the chipset's USB controller, specifically for the Ryzen series and newer. The main way to tell if you're having issues with this is checking logs after either sleeping or waking:
 
 * In terminal:
-  * `log show --last 1d | grep "Wake reason"` verify it
+  * `log show --last 1d | grep -i "Wake reason"`
 
 Should result in something like this:
 
@@ -223,7 +205,7 @@ Oddly enough, macOS has locked down digital audio from having control. To bring 
 
 ## Time inconsistency between macOS and Windows
 
-This is due to macOS using Universal Time while Windows relies on Greenwhich time, so you'll need to force one OS to a different way of measuring time. We highly recommend modifying Windows instead as it's far less destructive and painful:
+This is due to macOS using Universal Time while Windows relies on Greenwich time, so you'll need to force one OS to a different way of measuring time. We highly recommend modifying Windows instead as it's far less destructive and painful:
 
 * [Install Bootcamp utilities](https://dortania.github.io/OpenCore-Post-Install/multiboot/bootcamp.html)
 * [Modify Windows' registry](https://superuser.com/q/494432)

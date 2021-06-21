@@ -4,13 +4,7 @@ With macOS, there are numerous hardware limitations you need to be aware of befo
 
 The main hardware sections to verify are:
 
-* [CPU](#cpu-support)
-* [GPU](#gpu-support)
-* [Motherboard](#motherboard-support)
-* [Storage](#storage-support)
-* [Wired Networking](#wired-networking)
-* [Wireless Networking](#wireless-networking)
-* [Miscellaneous](#miscellaneous)
+[[toc]]
 
 And for more detailed guides on the subject, see here:
 
@@ -72,6 +66,12 @@ Kernel Requirements:
 * OS X 10.8 and newer require 64-bit kexts due to only supporting 64-bit kernelspace
   * Run `lipo -archs` to know what architectures your kext supports (remember to run this on the binary itself and not the .kext bundle)
 
+Core/Thread Count Limits:
+
+* OS X 10.10 and below may not boot with more than 24 threads (evident by a `mp_cpus_call_wait() timeout` panic)
+* OS X 10.11 and newer have a 64 thread limit
+* `cpus=` boot argument can be used as a workaround, or disabling hyperthreading
+
 Special Notes:
 
 * Lilu and plugins require 10.8 or newer to operate
@@ -105,6 +105,7 @@ Support based off of Vanilla Kernels (i.e. no modifications):
 | [Amber](https://en.wikipedia.org/wiki/Kaby_Lake#List_of_8th_generation_Amber_Lake_Y_processors), [Whiskey](https://en.wikipedia.org/wiki/Whiskey_Lake_(microarchitecture)), [Comet Lake](https://en.wikipedia.org/wiki/Comet_Lake_(microprocessor)) | 10.14.1 | ^^ | ^^ | 0x0806E0(U/Y) |
 | [Comet Lake](https://en.wikipedia.org/wiki/Comet_Lake_(microprocessor)) | 10.15.4 | ^^ | ^^ | 0x0906E0(S/H)|
 | [Ice Lake](https://en.wikipedia.org/wiki/Ice_Lake_(microprocessor)) | ^^ | ^^ | ^^ | 0x0706E5(U) |
+| [Rocket Lake](https://en.wikipedia.org/wiki/Rocket_Lake) | ^^ | ^^ | Requires Comet Lake CPUID | 0x0A0671 |
 | [Tiger Lake](https://en.wikipedia.org/wiki/Tiger_Lake_(microprocessor)) | <span style="color:red"> N/A </span> | <span style="color:red"> N/A </span> | <span style="color:red"> Untested </span> | 0x0806C0(U) |
 
 :::
@@ -114,7 +115,7 @@ Support based off of Vanilla Kernels (i.e. no modifications):
 Unfortunately many features in macOS are outright unsupported with AMD and many others being partially broken. These include:
 
 * Virtual Machines relying on AppleHV
-  * This includes VMWare, Parallels, Docker, Android Studios, etc
+  * This includes VMWare, Parallels, Docker, Android Studio, etc
   * VirtualBox is the sole exception as they have their own hypervisor
   * VMware 10 and Parallels 13.1.0 do support their own hypervisor, however using such outdated VM software poses a large security threat
 * Adobe Support
@@ -122,7 +123,7 @@ Unfortunately many features in macOS are outright unsupported with AMD and many 
   * You can disable functionality like RAW support to avoid the crashing: [Adobe Fixes](https://gist.github.com/naveenkrdy/26760ac5135deed6d0bb8902f6ceb6bd)
 * 32-Bit support
   * For those still relying on 32-Bit software in Mojave and below, note that the Vanilla patches do not support 32-bit instructions
-  * A work-around is to install a [custom kernel](https://amd-osx.com/download/kernel.html), however you lose iMessage support
+  * A work-around is to install a [custom kernel](https://files.amd-osx.com/?dir=Kernels), however you lose iMessage support and no support is provided for these kernels
 * Stability issues on many apps
   * Audio-based apps are the most prone to issues, ie. Logic Pro
   * DaVinci Resolve has been known to have sporadic issues as well
@@ -174,6 +175,7 @@ And an important note for **Laptops with discrete GPUs**:
 | [Comet Lake(UHD 6XX)](https://en.wikipedia.org/wiki/List_of_Intel_graphics_processing_units#Gen9) | 10.15.4 | ^^ | ^^ |
 | [Ice Lake(Gx)](https://en.wikipedia.org/wiki/List_of_Intel_graphics_processing_units#Gen11) | 10.15.4 | ^^ | Requires `-igfxcdc` and `-igfxdvmt` in boot-args |
 | [Tiger Lake(Xe)](https://en.wikipedia.org/wiki/Intel_Xe) | <span style="color:red"> N/A </span> | <span style="color:red"> N/A </span> | <span style="color:red"> No drivers available </span> |
+| [Rocket Lake](https://en.wikipedia.org/wiki/Rocket_Lake) | <span style="color:red"> N/A </span> | <span style="color:red"> N/A </span> | <span style="color:red"> No drivers available </span> |
 
 Note: Apple has kept Ivy Bridge's iGPU drivers present in macOS 11, Big Sur, however they are slated for removal. Please be aware they may be removed at a later time.
 
@@ -193,7 +195,7 @@ Note: Apple has kept Ivy Bridge's iGPU drivers present in macOS 11, Big Sur, how
 | [Vega 10](https://en.wikipedia.org/wiki/Radeon_RX_Vega_series) | 10.12.6 | ^^ | ^^ |
 | [Vega 20](https://en.wikipedia.org/wiki/Radeon_RX_Vega_series) | 10.14.5 | ^^ | ^^ |
 | [Navi 10](https://en.wikipedia.org/wiki/Radeon_RX_5000_series) | 10.15.1 | ^^ | Requires `agdpmod=pikera` in boot-args |
-| [Navi 20](https://en.wikipedia.org/wiki/Radeon_RX_6000_series) | <span style="color:red"> N/A </span> | <span style="color:red"> N/A </span> | <span style="color:red"> Current drivers do not function </span> |
+| [Navi 20](https://en.wikipedia.org/wiki/Radeon_RX_6000_series) | 11.4 | ^^ | <span style="color:yellow"> Currently only some Navi 21 models are working </span> |
 
 :::
 
@@ -239,10 +241,13 @@ For the most part, all SATA based drives are supported and the majority of NVMe 
 
 Virtually all wired network adapters have some form of support in macOS, either by the built-in drivers or community made kexts. The main exceptions:
 
-* Intel's 2.5GBe i225 networking
+* Intel I225 2.5Gb NIC
   * Found on high-end Desktop Comet Lake boards
-  * Workarounds are possible: [Source](https://www.hackintosh-forum.de/forum/thread/48568-i9-10900k-gigabyte-z490-vision-d-er-läuft/?postID=606059#post606059) and [Example](../config.plist/comet-lake.md#deviceproperties)
-* Intel's server NICs
+  * Workarounds are possible: [Source](https://www.hackintosh-forum.de/forum/thread/48568-i9-10900k-gigabyte-z490-vision-d-er-läuft/?postID=606059#post606059) and [Example](config.plist/comet-lake.md#deviceproperties)
+* Intel I350 1Gb server NIC
+  * Normally found on Intel and Supermicro server boards of various generations
+  * [Workaround](config-HEDT/ivy-bridge-e.md#deviceproperties)
+* Intel 10Gb server NICs
   * Workarounds are possible for [X520 and X540 chipsets](https://www.tonymacx86.com/threads/how-to-build-your-own-imac-pro-successful-build-extended-guide.229353/)
 * Mellanox and Qlogic server NICs
 
@@ -251,6 +256,8 @@ Virtually all wired network adapters have some form of support in macOS, either 
 Most WiFi cards that come with laptops are not supported as they are usually Intel/Qualcomm. If you are lucky, you may have a supported Atheros card, but support only runs up to High Sierra.
 
 The best option is getting a supported Broadcom card; see the [WiFi Buyer's Guide](https://dortania.github.io/Wireless-Buyers-Guide/) for recommendations.
+
+Note: Intel WiFi is unofficially (3rd party driver) supported on macOS, check [WiFi Buyer's Guide](https://dortania.github.io/Wireless-Buyers-Guide/) for more information about the drivers and supported cards.
 
 ## Miscellaneous
 

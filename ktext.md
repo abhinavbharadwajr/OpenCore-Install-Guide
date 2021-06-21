@@ -1,7 +1,5 @@
 # Gathering files
 
-* Supported version: 0.6.6
-
 This section is for gathering miscellaneous files for booting macOS, we do expect you to know your hardware well before starting and hopefully made a Hackintosh before as we won't be deep diving in here.
 
 > What's the best way to figure out if my hardware is supported?
@@ -11,6 +9,8 @@ See the [**Hardware Limitations page**](macos-limits.md) for some better insight
 > What are some ways to figure out what hardware I have?
 
 See the page before: [Finding your hardware](./find-hardware.md)
+
+[[toc]]
 
 ## Firmware Drivers
 
@@ -108,7 +108,6 @@ The below plugins are not required to boot, and merely add extra functionality t
   * Do not use if you don't have an ambient light sensor, can cause issues otherwise
 * SMCBatteryManager.kext
   * Used for measuring battery readouts on laptops, **desktops can ignore**
-  * Do not use until battery has been properly patched, can cause issues otherwise. So for initial setup, please omit this kext. After install you can follow this page for setup: [Fixing Battery Read-outs](https://dortania.github.io/OpenCore-Post-Install/laptop-specific/battery.html)
 * SMCDellSensors.kext
   * Allows for finer monitoring and control of the fans on Dell machines supporting System Management Mode(SMM)
   * **Do not use if you do not have a supported Dell machine**, mainly Dell laptops can benefit from this kext
@@ -145,10 +144,10 @@ Here we're going to assume you know what ethernet card your system has, reminder
 
 * [IntelMausi](https://github.com/acidanthera/IntelMausi/releases)
   * Required for the majority of Intel NICs, chipsets that are based off of I211 will need the SmallTreeIntel82576 kext
-  * Intel's 82578, 82579, i217, i218 and i219 NICs are officially supported
+  * Intel's 82578, 82579, I217, I218 and I219 NICs are officially supported
   * Requires OS X 10.9 or newer, 10.6-10.8 users can use the IntelSnowMausi instead for older OSes
 * [SmallTreeIntel82576 kext](https://github.com/khronokernel/SmallTree-I211-AT-patch/releases)
-  * Required for i211 NICs, based off of the SmallTree kext but patched to support I211
+  * Required for I211 NICs, based off of the SmallTree kext but patched to support I211
   * Required for most AMD boards running Intel NICs
   * Requires OS X 10.9-12(v1.0.6), macOS 10.13-14(v1.2.5), macOS 10.15+(v1.3.0)
 * [AtherosE2200Ethernet](https://github.com/Mieze/AtherosE2200Ethernet/releases)
@@ -157,13 +156,15 @@ Here we're going to assume you know what ethernet card your system has, reminder
   * Note: Atheros Killer E2500 models are actually Realtek based, for these systems please use [RealtekRTL8111](https://github.com/Mieze/RTL8111_driver_for_OS_X/releases) instead
 * [RealtekRTL8111](https://github.com/Mieze/RTL8111_driver_for_OS_X/releases)
   * For Realtek's Gigabit Ethernet
-  * Requires OS X 10.8-11(2.2.0), 10.12-13(v2.2.2), 10.14+(2.3.0)
-  * **NOTE: Sometimes Realtek's Gigabit Ethernet may not work correctly if you have RealtekRTL8111 v2.3.0. If you see this issue, try reverting to version 2.2.2**
+  * Requires OS X 10.8 and up for versions v2.2.0 and below, macOS 10.12 and up for versions v2.2.2 through v2.3.0 (inclusive), macOS 10.14 and up for versions v2.4.0 and up
+  * **NOTE:** Sometimes the latest version of the kext might not work properly with your Ethernet. If you see this issue, try older versions.
 * [LucyRTL8125Ethernet](https://www.insanelymac.com/forum/files/file/1004-lucyrtl8125ethernet/)
   * For Realtek's 2.5Gb Ethernet
   * Requires macOS 10.15 or newer
-* For Intel's i225-V NICs, patches are mentioned in the desktop Comet Lake DeviceProperty section. No kext is required.
+* For Intel's I225-V NICs, patches are mentioned in the desktop [Comet Lake DeviceProperties](config.plist/comet-lake.md#deviceproperties) section. No kext is required.
   * Requires macOS 10.15 or newer
+* For Intel's I350 NICs, patches are mentioned in the HEDT [Sandy and Ivy Bridge-E DeviceProperties](config-HEDT/ivy-bridge-e.md#deviceproperties) section. No kext is required.
+  * Requires OS X 10.10 or newer
 
 ::: details Legacy Ethernet Kexts
 
@@ -347,7 +348,7 @@ However ProperTree will handle this for you, so you need not concern yourself
 
 ### Laptop Specifics
 
-To figure out what kind of keyboard and trackpad you have, check Device Manager in Windows or `dmesg | grep input` in Linux
+To figure out what kind of keyboard and trackpad you have, check Device Manager in Windows or `dmesg | grep -i input` in Linux
 
 #### Input drivers
 
@@ -378,6 +379,11 @@ To figure out what kind of keyboard and trackpad you have, check Device Manager 
 :::
 
 #### Misc
+
+* [ECEnabler](https://github.com/1Revenger1/ECEnabler/releases)
+  * Fixes reading battery status on many devices (Allows reading EC fields over 8 bits long)
+* [BrightnessKeys](https://github.com/acidanthera/BrightnessKeys/releases)
+  * Fixes brightness keys automatically
 
 Please refer to [Kexts.md](https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Kexts.md) for a full list of supported kexts
 

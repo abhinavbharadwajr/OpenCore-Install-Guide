@@ -28,6 +28,7 @@
 19h
 1Revenger1
 20D75
+20E5186d
 20XX
 2200S
 2B-i
@@ -86,6 +87,7 @@ Acidanthera
 Acidanthera's
 Acpi
 AcpiSamples
+AddressSanitizer
 AirPortBrcm4360
 AirportAtheros40
 AirportBrcmFixup
@@ -98,6 +100,7 @@ AmazonBasics
 Andrey's
 Andrey1970AppleLife
 Aorus
+ApECID
 ApfsDriverLoader
 Apianti
 Apianti's
@@ -177,6 +180,7 @@ BOOTICE
 BT
 Backlight
 BaseSystem
+Baudrate
 BeyondCompare
 Big
 BlueScreen
@@ -188,6 +192,7 @@ BrcmBluetoothInjector
 BrcmFirmwareData
 BrcmPatchRAM[0-3]?
 Bridge-E5
+BrightnessKeys
 Broadcom
 Broadwell
 Broadwell-E
@@ -205,6 +210,8 @@ CLKT
 CMD
 CMOS
 CONFIGURATORS
+CP2102-based
+CP21202-based
 CPU0
 CPUFriend
 CPUFriendDataProvider
@@ -232,6 +239,7 @@ Config
 Configurator
 ConsoleControl
 ConsoleGOP
+CoolTerm
 Core2
 CorpNewt
 CorpNewt's
@@ -249,6 +257,7 @@ CustomSMBIOSMode
 D3
 DAC
 DACs
+DB9
 DBG
 DC7900
 DMAR
@@ -283,6 +292,7 @@ E2500
 EB
 EC0
 ECDV
+ECEnabler
 EDID
 EDK
 EDKII
@@ -356,6 +366,7 @@ GFX
 GFX0
 GMA
 GMA950
+GND
 GPEN
 GPHD
 GPI0
@@ -377,7 +388,6 @@ Goldfish64
 Goldfish64's
 GraphicsEnabler
 GraphicsEnabler=Yes
-Greenwhich
 GuC
 Gui
 H310
@@ -416,9 +426,16 @@ HiDPI
 HiiDatabase
 HoRNDIS
 Hx6x
+I210
 I211
 I211-AT
+I218
+I219
+I225
+I225-V
+I225LM
 I2C
+I350
 I7,
 IA32
 IDER
@@ -469,9 +486,11 @@ JDK
 JRE
 JackFix
 Journaled
+KASAN
 KASLR
 KBL-R
 KDK
+KDKs
 KVM
 KVMs
 Kaby
@@ -621,6 +640,7 @@ OpenShell
 OpenUsbKbDxe
 Optane
 Optimus
+Optiplex
 OsxAptioFixDrvX
 OtherOS
 P50
@@ -692,7 +712,7 @@ RTCMemoryFixup
 RTVariables
 R[5|7]
 Radeon
-Radeon-Denit-SSDT
+Radeon-DeInit-SSDT
 Ramus
 Realtek
 Realtek's
@@ -708,6 +728,7 @@ Reinstalls
 Rename-SSDT
 Repo
 Resizable
+RestrictEvents
 Ryzen
 S3
 SAS
@@ -717,6 +738,7 @@ SATA
 SATA-Unsupported
 SATA-unsupported
 SBRG
+SFF
 SGX
 SHA-1
 SL01
@@ -760,7 +782,9 @@ Speccy
 Stompy
 StopSign-fixv
 StopSign-fixv5
+Strix
 Subreddit
+Supermicro
 Sur
 Sur's
 Synaptics
@@ -796,6 +820,7 @@ Trackpad
 Trackpads
 TransMac
 Typora
+UART
 UEFI-based
 UEFIExtrac
 UEFITool
@@ -816,6 +841,7 @@ UsbInjectAll
 UselessBanana
 Userspace
 V1
+VAIO
 VBIOS
 VDADecoderChecker
 VDI
@@ -860,6 +886,7 @@ WhateverGreen
 WhateverGreen's
 Wifi
 X299
+X299-E
 X3100
 X470
 X520
@@ -901,10 +928,13 @@ Z87
 Z87-Pro
 Z97
 [0-9]+GB
+[0-9]+Gb
 [0-9]+MB
 [0-9]+XXX
 \.efi
 acidanthera
+acpi_layer=0x8
+acpi_level=0x2
 acpica
 actionLink
 actionText
@@ -912,6 +942,7 @@ al3xtjames
 alcid
 algrey
 architected
+arg
 args
 arse
 auth
@@ -961,6 +992,7 @@ csrstat
 dGPU
 dGPUs
 debug=0x100
+debug=0x12a
 decompile
 decompiled
 decompiling
@@ -1014,13 +1046,7 @@ hacky
 heroImage
 heroText
 hotplug
-i210
-i211
-i218
-i219
-i225
-i225-V
-i225LM
+hyperthreading
 i3
 i3-3110M
 i7
@@ -1065,11 +1091,14 @@ ie
 ie\.
 ig-platform-id
 ig-platform-id's
+igdebug=0xff
 igfxcdc
 igfxfw
 img
+io=0xff
 ix-3xxx
 jailbroken
+kcsuffix
 keepsyms=1
 kernelcache
 kernelspace
@@ -1098,6 +1127,7 @@ max_cpus_from_firmware
 mhaeuser
 midi1996
 mini-explainer
+msgbuf=1048576
 msi
 multiboot
 multibooting
@@ -1151,7 +1181,6 @@ savvamitrofanov
 shiki
 shikigva
 slavs
-slowgeek
 smcread
 snapshotting
 snb-platform-id

@@ -2,7 +2,6 @@
 
 | Support | Version |
 | :--- | :--- |
-| Supported OpenCore version | 0.6.6 |
 | Initial macOS Support | macOS 10.15, Catalina |
 
 ## Starting Point
@@ -148,14 +147,14 @@ We also add 2 more properties, `framebuffer-patch-enable` and `framebuffer-stole
 
 ::: tip PciRoot(0x0)/Pci(0x1C,0x1)/Pci(0x0,0x0)
 
-This entry relates to Intel's i225-V 2.5GBe controller found on higher end Comet Lake boards, what we'll be doing here is tricking Apple's i225LM driver into supporting our i225-V network controller:
+This entry relates to Intel's I225-V 2.5GBe controller found on higher end Comet Lake boards, what we'll be doing here is tricking Apple's I225LM driver into supporting our I225-V network controller:
 
 | Key | Type | Value |
 | :--- | :--- | :--- |
 | device-id | Data | F2150000 |
 
-* **Note**: If your board didn't ship with the Intel i225 NIC, there's no reason to add this entry.
-* **Note 2**: If you get a kernel panic on i210 kext, your Ethernet's path is likely `PciRoot(0x0)/Pci(0x1C,0x4)/Pci(0x0,0x0)`
+* **Note**: If your board didn't ship with the Intel I225 NIC, there's no reason to add this entry.
+* **Note 2**: If you get a kernel panic on the AppleIntelI210Ethernet kext, your Ethernet's path is likely `PciRoot(0x0)/Pci(0x1C,0x4)/Pci(0x0,0x0)`
 
 :::
 
@@ -250,6 +249,25 @@ Blocks certain kexts from loading. Not relevant for us.
 ### Patch
 
 Patches both the kernel and kexts.
+
+::: tip Fixing I225-V controllers
+
+This entry relates to Intel's I225-V 2.5GBe controller found on higher end Comet Lake boards, what we'll be doing here is tricking Apple's I225LM driver into supporting our I225-V network controller.
+
+| Key | Type | Value |
+| :--- | :--- | :--- |
+| Base | String | __Z18e1000_set_mac_typeP8e1000_hw |
+| Comment | String | I225-V patch |
+| Enabled | Boolean | True |
+| Find | Data | `F2150000` |
+| Identifier | String | com.apple.driver.AppleIntelI210Ethernet |
+| MinKernel | String | 19.0.0 |
+| Replace | Data | `F3150000` |
+
+* **Note 1**: If your board didn't ship with the Intel I225 NIC, there's no reason to add this entry.
+* **Note 2**: Leave all other keys at their default values
+
+:::
 
 ### Quirks
 
@@ -697,14 +715,6 @@ For those having booting issues, please make sure to read the [Troubleshooting s
 
 * [r/Hackintosh Subreddit](https://www.reddit.com/r/hackintosh/)
 * [r/Hackintosh Discord](https://discord.gg/2QYd7ZT)
-
-**Sanity check**:
-
-So thanks to the efforts of Ramus, we also have an amazing tool to help verify your config for those who may have missed something:
-
-* [**Sanity Checker**](https://opencore.slowgeek.com)
-
-Note that this tool is neither made nor maintained by Dortania, any and all issues with this site should be sent here: [Sanity Checker Repo](https://github.com/rlerdorf/OCSanity)
 
 ## Intel BIOS settings
 
